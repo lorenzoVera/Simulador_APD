@@ -53,7 +53,8 @@ class APDSimulatorApp(ctk.CTk):
 
         # Reubicación de los elementos de Configuración del APD
         # Usamos columnspan para que el título se centre sobre ambas "subcolumnas" del banner
-       ctk.CTkLabel(self.apd_config_frame, text="Configuración del APD", font=("Arial", 16, "bold")).grid(row=0, column=0, columnspan=2, pady=10, sticky="ew")
+        # CORRECTED INDENTATION BELOW
+        ctk.CTkLabel(self.apd_config_frame, text="Configuración del APD", font=("Arial", 16, "bold")).grid(row=0, column=0, columnspan=2, pady=10, sticky="ew")
 
         # Botones arriba de la configuración
         btn_cargar = ctk.CTkButton(self.apd_config_frame, text="Cargar datos desde TXT", command=self.cargar_desde_txt)
@@ -62,7 +63,7 @@ class APDSimulatorApp(ctk.CTk):
         btn_guardar = ctk.CTkButton(self.apd_config_frame, text="Guardar datos a TXT", command=self.guardar_a_txt)
         btn_guardar.grid(row=1, column=1, padx=5, pady=5, sticky="ew")
 
-        # Ahora recorre todos los elementos de configuración una fila hacia abajo
+        # Now all configuration elements move one row down
         ctk.CTkLabel(self.apd_config_frame, text="Estado Inicial:").grid(row=2, column=0, padx=5, pady=5, sticky="w")
         self.initial_state_entry = ctk.CTkEntry(self.apd_config_frame, placeholder_text="q0")
         self.initial_state_entry.grid(row=3, column=0, padx=5, pady=5, sticky="ew")
@@ -322,4 +323,4 @@ class APDSimulatorApp(ctk.CTk):
 
 if __name__ == "__main__":
     app = APDSimulatorApp()
-    app.mainloop()
+    app.mainloop() # Removed the comma here
