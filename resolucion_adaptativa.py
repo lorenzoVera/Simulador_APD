@@ -1,4 +1,4 @@
-def obtener_geometria_adaptativa(app_instance, porcentaje_pantalla=0.80):
+def resolucion_adaptativa(app_instance, porcentaje_pantalla=0.80):
   
     screen_width = app_instance.winfo_screenwidth()
     screen_height = app_instance.winfo_screenheight()
