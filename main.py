@@ -5,6 +5,7 @@ import re
 from apd_simulator import simular_palabra
 from gui_elements import add_transition_entry_to_app, remove_transition_entry_from_app, add_word_entry_to_app, remove_word_entry_from_app
 from resolucion_adaptativa import obtener_geometria_adaptativa
+from verifica_estado_final import verificar_estado_final
 
 class APDSimulatorApp(ctk.CTk):
     def __init__(self):
@@ -241,13 +242,14 @@ class APDSimulatorApp(ctk.CTk):
         if transiciones is None:
             return
 
+        #Verificar si se llega a estado final
+        if tipo_aceptacion == "final":
+            verificar_estado_final(transiciones, estados_finales)
+
         palabras_entrada = []
         for item in self.word_entries:
             word = item['entry'].get().strip()
-            if word:
-                palabras_entrada.append((word, item['result_label']))
-            else:
-                item['result_label'].configure(text="")
+            palabras_entrada.append((word, item['result_label']))
 
         if not palabras_entrada:
             messagebox.showwarning("Advertencia", "No se han ingresado palabras para verificar.")
