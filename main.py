@@ -1,6 +1,8 @@
 import customtkinter as ctk
 from tkinter import messagebox
 import re
+import os
+import sys
 
 from apd_simulator import leer_palabra
 from gui_elements import agregar_transicion, eliminar_transicion, agregar_palabra, eliminar_palabra
@@ -11,13 +13,21 @@ from apd_file_io import cargar_apd_desde_txt, guardar_apd_a_txt
 from gui_elements import clear_all_transition_entries
 from gui_elements import agregar_transicion
 
+#Función para obtener la ruta correcta para archivos de recursos
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 class APDSimulatorApp(ctk.CTk):
     def __init__(ventana):
         super().__init__()
 
         ventana.title("Simulador de Autómatas Pushdown Deterministas")
-        ventana.iconbitmap("APD.ico")
-        # Geometría adaptativa para la ventana principal
+        ventana.iconbitmap(resource_path("APD.ico"))
+        # Resolución adaptativa para la ventana principal
         resolucion_calculada = resolucion_adaptativa(ventana, 0.80) 
         ventana.geometry(resolucion_calculada)
         ventana.resizable(True, True)
