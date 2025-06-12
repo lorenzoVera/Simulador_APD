@@ -21,7 +21,7 @@ def agregar_transicion(app):
     e_actual.grid(row=1, column=0, padx=2, sticky="ew")
 
     # Símbolo de Entrada
-    ctk.CTkLabel(frame, text="Palabra").grid(row=0, column=1, sticky="w")
+    ctk.CTkLabel(frame, text="Símbolo:").grid(row=0, column=1, sticky="w")
     e_entrada = ctk.CTkEntry(frame, placeholder_text="ε")
     e_entrada.grid(row=1, column=1, padx=2, sticky="ew")
 
