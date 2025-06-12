@@ -7,7 +7,6 @@ def add_transition_entry_to_app(app):
     frame.grid(row=len(app.transition_entries), column=0, padx=2, pady=5, sticky="ew")
     
     # Configuración de las columnas dentro de cada frame de transición
-    # Asignamos minsize a cada columna para asegurar legibilidad
     frame.grid_columnconfigure(0, weight=1, minsize=80)  # Estado Actual
     frame.grid_columnconfigure(1, weight=1, minsize=80)  # Símbolo de Entrada
     frame.grid_columnconfigure(2, weight=1, minsize=80)  # Tope de la Pila
@@ -19,16 +18,16 @@ def add_transition_entry_to_app(app):
     # Estado Actual
     ctk.CTkLabel(frame, text="Estado:").grid(row=0, column=0, sticky="w")
     e_actual = ctk.CTkEntry(frame) 
-    e_actual.grid(row=1, column=0, padx=2, sticky="ew") # sticky="ew" para expandir horizontalmente
+    e_actual.grid(row=1, column=0, padx=2, sticky="ew")
 
     # Símbolo de Entrada
     ctk.CTkLabel(frame, text="Palabra (ε si vacío):").grid(row=0, column=1, sticky="w")
-    e_entrada = ctk.CTkEntry(frame)
+    e_entrada = ctk.CTkEntry(frame, placeholder_text="ε")
     e_entrada.grid(row=1, column=1, padx=2, sticky="ew")
 
     # Tope de la Pila
-    ctk.CTkLabel(frame, text="Tope Pila (ε si vacío):").grid(row=0, column=2, sticky="w")
-    e_tope = ctk.CTkEntry(frame)
+    ctk.CTkLabel(frame, text="Tope Pila (ε si vacío, R para fondo):").grid(row=0, column=2, sticky="w")
+    e_tope = ctk.CTkEntry(frame, placeholder_text="ε")
     e_tope.grid(row=1, column=2, padx=2, sticky="ew")
 
     ctk.CTkLabel(frame, text="->").grid(row=1, column=3, padx=5)
@@ -39,8 +38,8 @@ def add_transition_entry_to_app(app):
     e_siguiente.grid(row=1, column=4, padx=2, sticky="ew")
 
     # Símbolos a Apilar
-    ctk.CTkLabel(frame, text="Nuevo Tope Pila (ε si vacío):").grid(row=0, column=5, sticky="w")
-    e_apilar = ctk.CTkEntry(frame)
+    ctk.CTkLabel(frame, text="Nuevo Tope Pila (ε si vacío, R para fondo):").grid(row=0, column=5, sticky="w")
+    e_apilar = ctk.CTkEntry(frame, placeholder_text="ε")
     e_apilar.grid(row=1, column=5, padx=2, sticky="ew")
     
     # Botón para eliminar esta transición
