@@ -109,3 +109,11 @@ def remove_word_entry_from_app(app, frame_to_remove):
         # Añadir una entrada inicial si todas han sido eliminadas
         add_word_entry_to_app(app)
     app.words_scroll_frame.update_idletasks() # Actualizar para reflejar el cambio de tamaño
+
+def clear_all_transition_entries(app):
+    """Elimina todas las transiciones sin agregar ninguna nueva."""
+    while app.transition_entries:
+        item = app.transition_entries[0]
+        item['frame'].destroy()
+        del app.transition_entries[0]
+    app.transitions_scroll_frame.update_idletasks()
