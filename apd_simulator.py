@@ -1,6 +1,6 @@
 # apd_simulator.py
 
-def simular_palabra(palabra, transiciones, estado_inicial, tipo_aceptacion, estados_finales):
+def leer_palabra(palabra, transiciones, estado_inicial, tipo_aceptacion, estados_finales):
     """
     Simula el APD para una única palabra.
     Retorna True si la palabra es aceptada, False en caso contrario.
