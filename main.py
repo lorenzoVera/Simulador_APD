@@ -16,7 +16,7 @@ class APDSimulatorApp(ctk.CTk):
         super().__init__()
 
         ventana.title("Simulador de Autómatas Pushdown Deterministas")
-        
+        ventana.iconbitmap("APD.ico")
         # Geometría adaptativa para la ventana principal
         resolucion_calculada = resolucion_adaptativa(ventana, 0.80) 
         ventana.geometry(resolucion_calculada)
