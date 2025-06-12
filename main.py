@@ -21,6 +21,7 @@ class APDSimulatorApp(ctk.CTk):
         resolucion_calculada = resolucion_adaptativa(ventana, 0.80) 
         ventana.geometry(resolucion_calculada)
         ventana.resizable(True, True)
+        ventana.minsize(1000, 500) 
 
         ventana.grid_rowconfigure(0, weight=0, minsize=200)
         ventana.grid_rowconfigure(1, weight=1)
@@ -71,10 +72,11 @@ class APDSimulatorApp(ctk.CTk):
         ventana.columna2.grid_rowconfigure(2, weight=0)
         ventana.columna2.grid_columnconfigure(0, weight=1)
 
-        ctk.CTkLabel(ventana.columna2, text="Definir Transiciones", font=("Arial", 16, "bold")).grid(row=0, column=0, pady=10, sticky="ew")
+        ctk.CTkLabel(ventana.columna2, text="Definir Transiciones \n(Considerar R símbolo inicial del stack)", font=("Arial", 16, "bold")).grid(row=0, column=0, pady=10, sticky="ew")
 
         ventana.transiciones_frame = ctk.CTkScrollableFrame(ventana.columna2)
         ventana.transiciones_frame.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+        ventana.transiciones_frame.grid_columnconfigure(0, weight=1)
 
         ventana.transiciones_entrada = []
         agregar_transicion(ventana)
@@ -94,6 +96,7 @@ class APDSimulatorApp(ctk.CTk):
 
         ventana.palabras_frame = ctk.CTkScrollableFrame(ventana.columna3)
         ventana.palabras_frame.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+        ventana.palabras_frame.grid_columnconfigure(0, weight=1)
 
         ventana.entrada_palabras = []
         agregar_palabra(ventana)
