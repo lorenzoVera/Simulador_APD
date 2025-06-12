@@ -49,30 +49,37 @@ class APDSimulatorApp(ctk.CTk):
 
         # Reubicación de los elementos de Configuración del APD
         # Usamos columnspan para que el título se centre sobre ambas "subcolumnas" del banner
-        ctk.CTkLabel(self.apd_config_frame, text="Configuración del APD", font=("Arial", 16, "bold")).grid(row=0, column=0, columnspan=2, pady=10, sticky="ew")
+       ctk.CTkLabel(self.apd_config_frame, text="Configuración del APD", font=("Arial", 16, "bold")).grid(row=0, column=0, columnspan=2, pady=10, sticky="ew")
 
-        # Columna 0 de apd_config_frame
-        ctk.CTkLabel(self.apd_config_frame, text="Estado Inicial:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        # Botones arriba de la configuración
+        btn_cargar = ctk.CTkButton(self.apd_config_frame, text="Cargar datos desde TXT", command=self.cargar_desde_txt)
+        btn_cargar.grid(row=1, column=0, padx=5, pady=5, sticky="ew")
+
+        btn_guardar = ctk.CTkButton(self.apd_config_frame, text="Guardar datos a TXT", command=self.guardar_a_txt)
+        btn_guardar.grid(row=1, column=1, padx=5, pady=5, sticky="ew")
+
+        # Ahora recorre todos los elementos de configuración una fila hacia abajo
+        ctk.CTkLabel(self.apd_config_frame, text="Estado Inicial:").grid(row=2, column=0, padx=5, pady=5, sticky="w")
         self.initial_state_entry = ctk.CTkEntry(self.apd_config_frame, placeholder_text="q0")
-        self.initial_state_entry.grid(row=2, column=0, padx=5, pady=5, sticky="ew")
+        self.initial_state_entry.grid(row=3, column=0, padx=5, pady=5, sticky="ew")
 
-        ctk.CTkLabel(self.apd_config_frame, text="Estados Finales (ej: qf1,qf2):").grid(row=3, column=0, padx=5, pady=5, sticky="w")
+        ctk.CTkLabel(self.apd_config_frame, text="Estados Finales (ej: qf1,qf2):").grid(row=4, column=0, padx=5, pady=5, sticky="w")
         self.final_states_entry = ctk.CTkEntry(self.apd_config_frame, placeholder_text="qf")
-        self.final_states_entry.grid(row=4, column=0, padx=5, pady=5, sticky="ew")
-        
-        # Columna 1 de apd_config_frame
-        ctk.CTkLabel(self.apd_config_frame, text="Tipo de Aceptación:").grid(row=1, column=1, padx=5, pady=5, sticky="w")
+        self.final_states_entry.grid(row=5, column=0, padx=5, pady=5, sticky="ew")
+
+        ctk.CTkLabel(self.apd_config_frame, text="Tipo de Aceptación:").grid(row=2, column=1, padx=5, pady=5, sticky="w")
         self.acceptance_type_var = ctk.StringVar(value="final")
         self.final_state_radio = ctk.CTkRadioButton(self.apd_config_frame, text="Por Estado Final",
                                                     variable=self.acceptance_type_var, value="final",
                                                     command=self.toggle_final_state_entry)
-        self.final_state_radio.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+        self.final_state_radio.grid(row=3, column=1, padx=5, pady=5, sticky="w")
 
         self.stack_empty_radio = ctk.CTkRadioButton(self.apd_config_frame, text="Por Stack Vacío",
                                                     variable=self.acceptance_type_var, value="stack",
                                                     command=self.toggle_final_state_entry)
-        self.stack_empty_radio.grid(row=3, column=1, padx=5, pady=5, sticky="w")
-        self.toggle_final_state_entry() # Llamada inicial para establecer el estado correcto
+        self.stack_empty_radio.grid(row=4, column=1, padx=5, pady=5, sticky="w")
+        self.toggle_final_state_entry()
+
 
 
         # --- Fila 2, Columna 1: Transiciones ---
@@ -261,6 +268,53 @@ class APDSimulatorApp(ctk.CTk):
                 result_label.configure(text="Aceptada", text_color="green")
             else:
                 result_label.configure(text="Rechazada", text_color="red")
+
+    def cargar_desde_txt(self):
+        ruta = filedialog.askopenfilename(filetypes=[("Archivos de texto", "*.txt")])
+        if not ruta:
+            return
+        estado_inicial, estados_finales, tipo_aceptacion, transiciones = cargar_apd_desde_txt(ruta)
+        self.initial_state_entry.delete(0, "end")
+        self.initial_state_entry.insert(0, estado_inicial)
+        self.final_states_entry.delete(0, "end")
+        self.final_states_entry.insert(0, estados_finales)
+       # Traducción del tipo de aceptación
+        if tipo_aceptacion.strip().lower() in ["stack", "stack vacio", "vacia"]:
+            self.acceptance_type_var.set("stack")
+        else:
+            self.acceptance_type_var.set("final")
+        print("Tipo de aceptación cargado:", tipo_aceptacion, "->", self.acceptance_type_var.get())
+        self.toggle_final_state_entry()
+        self.update_idletasks()
+        # Limpiar todas las transiciones de una vez
+        clear_all_transition_entries(self)
+        # Agregar transiciones del archivo
+        for t in transiciones:
+            add_transition_entry_to_app(self)
+            partes = t.replace("->", ",").split(",")
+            while len(partes) < 5:
+                partes.append("")
+            entry = self.transition_entries[-1]
+            entry['estado_actual'].insert(0, partes[0])
+            entry['simbolo_entrada'].insert(0, partes[1])
+            entry['tope_stack'].insert(0, partes[2])
+            entry['estado_siguiente'].insert(0, partes[3])
+            entry['simbolos_a_apilar'].insert(0, partes[4])
+        if not transiciones:
+            add_transition_entry_to_app(self)
+
+    def guardar_a_txt(self):
+        ruta = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Archivos de texto", "*.txt")])
+        if not ruta:
+            return
+        estado_inicial = self.initial_state_entry.get()
+        estados_finales = self.final_states_entry.get()
+        tipo_aceptacion = self.acceptance_type_var.get()
+        transiciones = []
+        for entry in self.transition_entries:
+            t = f"{entry['estado_actual'].get()},{entry['simbolo_entrada'].get()},{entry['tope_stack'].get()}->{entry['estado_siguiente'].get()},{entry['simbolos_a_apilar'].get()}"
+            transiciones.append(t)
+        guardar_apd_a_txt(ruta, estado_inicial, estados_finales, tipo_aceptacion, transiciones)
 
 if __name__ == "__main__":
     app = APDSimulatorApp()
