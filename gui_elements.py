@@ -1,10 +1,10 @@
 # gui_elements.py
 import customtkinter as ctk
 
-def add_transition_entry_to_app(app):
+def agregar_transicion(app):
     """Añade un nuevo conjunto de campos de entrada para una transición a la app."""
-    frame = ctk.CTkFrame(app.transitions_scroll_frame)
-    frame.grid(row=len(app.transition_entries), column=0, padx=2, pady=5, sticky="ew")
+    frame = ctk.CTkFrame(app.transiciones_frame)
+    frame.grid(row=len(app.transiciones_entrada), column=0, padx=2, pady=5, sticky="ew")
     
     # Configuración de las columnas dentro de cada frame de transición
     frame.grid_columnconfigure(0, weight=1, minsize=80)  # Estado Actual
@@ -43,10 +43,10 @@ def add_transition_entry_to_app(app):
     e_apilar.grid(row=1, column=5, padx=2, sticky="ew")
     
     # Botón para eliminar esta transición
-    remove_button = ctk.CTkButton(frame, text="-", width=30, command=lambda f=frame: remove_transition_entry_from_app(app, f))
+    remove_button = ctk.CTkButton(frame, text="-", width=30, command=lambda f=frame: eliminar_transicion(app, f))
     remove_button.grid(row=1, column=6, padx=2)
 
-    app.transition_entries.append({
+    app.transiciones_entrada.append({
         'frame': frame,
         'estado_actual': e_actual,
         'simbolo_entrada': e_entrada,
@@ -54,28 +54,28 @@ def add_transition_entry_to_app(app):
         'estado_siguiente': e_siguiente,
         'simbolos_a_apilar': e_apilar
     })
-    app.transitions_scroll_frame.update_idletasks()
+    app.transiciones_frame.update_idletasks()
 
-def remove_transition_entry_from_app(app, frame_to_remove):
+def eliminar_transicion(app, frame_to_remove):
     """Elimina un conjunto de campos de entrada de transición de la app."""
-    for i, item in enumerate(app.transition_entries):
+    for i, item in enumerate(app.transiciones_entrada):
         if item['frame'] == frame_to_remove:
             item['frame'].destroy()
-            del app.transition_entries[i]
-            for j in range(i, len(app.transition_entries)):
+            del app.transiciones_entrada[i]
+            for j in range(i, len(app.transiciones_entrada)):
                 # Aseguramos que la reubicación use sticky="ew" para mantener la expansión
-                app.transition_entries[j]['frame'].grid(row=j, column=0, padx=2, pady=5, sticky="ew")
+                app.transiciones_entrada[j]['frame'].grid(row=j, column=0, padx=2, pady=5, sticky="ew")
             break
     
-    if not app.transition_entries:
+    if not app.transiciones_entrada:
         # Añadir una entrada inicial si todas han sido eliminadas
-        add_transition_entry_to_app(app)
-    app.transitions_scroll_frame.update_idletasks() # Actualizar para reflejar el cambio de tamaño
+        agregar_transicion(app)
+    app.transiciones_frame.update_idletasks() # Actualizar para reflejar el cambio de tamaño
 
-def add_word_entry_to_app(app):
+def agregar_palabra(app):
     """Añade un nuevo campo de entrada para una palabra y su label de resultado a la app."""
-    frame = ctk.CTkFrame(app.words_scroll_frame)
-    frame.grid(row=len(app.word_entries), column=0, padx=2, pady=2, sticky="ew")
+    frame = ctk.CTkFrame(app.palabras_frame)
+    frame.grid(row=len(app.entrada_palabras), column=0, padx=2, pady=2, sticky="ew")
     
     # Configuración de las columnas dentro de cada frame de palabra
     frame.grid_columnconfigure(0, weight=1, minsize=150) # La entrada de palabra se expande, mínimo 150px
@@ -88,32 +88,32 @@ def add_word_entry_to_app(app):
     result_label = ctk.CTkLabel(frame, text="")
     result_label.grid(row=0, column=1, padx=5, pady=2, sticky="e") # sticky="e" para pegarlo a la derecha
 
-    remove_button = ctk.CTkButton(frame, text="-", width=30, command=lambda f=frame: remove_word_entry_from_app(app, f))
+    remove_button = ctk.CTkButton(frame, text="-", width=30, command=lambda f=frame: eliminar_palabra(app, f))
     remove_button.grid(row=0, column=2, padx=2, pady=2)
 
-    app.word_entries.append({'frame': frame, 'entry': word_entry, 'result_label': result_label})
-    app.words_scroll_frame.update_idletasks()
+    app.entrada_palabras.append({'frame': frame, 'entry': word_entry, 'result_label': result_label})
+    app.palabras_frame.update_idletasks()
 
-def remove_word_entry_from_app(app, frame_to_remove):
+def eliminar_palabra(app, frame_to_remove):
     """Elimina un campo de entrada de palabra y su label de resultado de la app."""
-    for i, item in enumerate(app.word_entries):
+    for i, item in enumerate(app.entrada_palabras):
         if item['frame'] == frame_to_remove:
             item['frame'].destroy()
-            del app.word_entries[i]
-            for j in range(i, len(app.word_entries)):
+            del app.entrada_palabras[i]
+            for j in range(i, len(app.entrada_palabras)):
                 # Aseguramos que la reubicación use sticky="ew" para mantener la expansión
-                app.word_entries[j]['frame'].grid(row=j, column=0, padx=2, pady=2, sticky="ew")
+                app.entrada_palabras[j]['frame'].grid(row=j, column=0, padx=2, pady=2, sticky="ew")
             break
     
-    if not app.word_entries:
+    if not app.entrada_palabras:
         # Añadir una entrada inicial si todas han sido eliminadas
-        add_word_entry_to_app(app)
-    app.words_scroll_frame.update_idletasks() # Actualizar para reflejar el cambio de tamaño
+        agregar_palabra(app)
+    app.palabras_frame.update_idletasks() # Actualizar para reflejar el cambio de tamaño
 
 def clear_all_transition_entries(app):
     """Elimina todas las transiciones sin agregar ninguna nueva."""
-    while app.transition_entries:
-        item = app.transition_entries[0]
+    while app.transiciones_entrada:
+        item = app.transiciones_entrada[0]
         item['frame'].destroy()
-        del app.transition_entries[0]
-    app.transitions_scroll_frame.update_idletasks()
+        del app.transiciones_entrada[0]
+    app.transiciones_frame.update_idletasks()
