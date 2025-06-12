@@ -6,6 +6,10 @@ from apd_simulator import simular_palabra
 from gui_elements import add_transition_entry_to_app, remove_transition_entry_from_app, add_word_entry_to_app, remove_word_entry_from_app
 from resolucion_adaptativa import obtener_geometria_adaptativa
 from verifica_estado_final import verificar_estado_final
+from tkinter import filedialog
+from apd_file_io import cargar_apd_desde_txt, guardar_apd_a_txt
+from gui_elements import clear_all_transition_entries
+from gui_elements import add_transition_entry_to_app
 
 class APDSimulatorApp(ctk.CTk):
     def __init__(self):
