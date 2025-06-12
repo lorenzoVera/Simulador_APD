@@ -7,13 +7,13 @@ def agregar_transicion(app):
     frame.grid(row=len(app.transiciones_entrada), column=0, padx=2, pady=5, sticky="ew")
     
     # Configuración de las columnas dentro de cada frame de transición
-    frame.grid_columnconfigure(0, weight=1, minsize=80)  # Estado Actual
-    frame.grid_columnconfigure(1, weight=1, minsize=80)  # Símbolo de Entrada
-    frame.grid_columnconfigure(2, weight=1, minsize=80)  # Tope de la Pila
-    frame.grid_columnconfigure(3, weight=0, minsize=20)  # "->" (fijo, pequeño)
-    frame.grid_columnconfigure(4, weight=1, minsize=80)  # Estado Siguiente
-    frame.grid_columnconfigure(5, weight=1, minsize=80)  # Símbolos a Apilar
-    frame.grid_columnconfigure(6, weight=0, minsize=30)  # Botón eliminar (fijo)
+    frame.grid_columnconfigure(0, weight=1)  # Estado Actual
+    frame.grid_columnconfigure(1, weight=2)  # Símbolo de Entrada
+    frame.grid_columnconfigure(2, weight=1)  # Tope de la Pila
+    frame.grid_columnconfigure(3, weight=0)  # "->" (fijo, pequeño)
+    frame.grid_columnconfigure(4, weight=1)  # Estado Siguiente
+    frame.grid_columnconfigure(5, weight=1)  # Símbolos a Apilar
+    frame.grid_columnconfigure(6, weight=0)  # Botón eliminar (fijo)
 
     # Estado Actual
     ctk.CTkLabel(frame, text="Estado:").grid(row=0, column=0, sticky="w")
@@ -21,12 +21,12 @@ def agregar_transicion(app):
     e_actual.grid(row=1, column=0, padx=2, sticky="ew")
 
     # Símbolo de Entrada
-    ctk.CTkLabel(frame, text="Palabra (ε si vacío):").grid(row=0, column=1, sticky="w")
+    ctk.CTkLabel(frame, text="Palabra").grid(row=0, column=1, sticky="w")
     e_entrada = ctk.CTkEntry(frame, placeholder_text="ε")
     e_entrada.grid(row=1, column=1, padx=2, sticky="ew")
 
     # Tope de la Pila
-    ctk.CTkLabel(frame, text="Tope Pila (ε si vacío, R para fondo):").grid(row=0, column=2, sticky="w")
+    ctk.CTkLabel(frame, text="Tope Pila:").grid(row=0, column=2, sticky="w")
     e_tope = ctk.CTkEntry(frame, placeholder_text="ε")
     e_tope.grid(row=1, column=2, padx=2, sticky="ew")
 
@@ -38,7 +38,7 @@ def agregar_transicion(app):
     e_siguiente.grid(row=1, column=4, padx=2, sticky="ew")
 
     # Símbolos a Apilar
-    ctk.CTkLabel(frame, text="Nuevo Tope Pila (ε si vacío, R para fondo):").grid(row=0, column=5, sticky="w")
+    ctk.CTkLabel(frame, text="Nuevo Tope Pila:").grid(row=0, column=5, sticky="w")
     e_apilar = ctk.CTkEntry(frame, placeholder_text="ε")
     e_apilar.grid(row=1, column=5, padx=2, sticky="ew")
     
