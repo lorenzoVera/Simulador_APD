@@ -91,8 +91,8 @@ def simular_palabra(palabra, transiciones, estado_inicial, tipo_aceptacion, esta
 
     if puntero_lectura == len(palabra): 
         if tipo_aceptacion == 'stack':
-            if not stack_sim or (len(stack_sim) == 1 and stack_sim[0] == 'R'):
-                print("DEBUG: Aceptado por stack vacío/fondo (contiene solo R).")
+            if not stack_sim:
+                print("DEBUG: Aceptado por stack vacío")
                 return True
         elif tipo_aceptacion == 'final' and estado_actual_sim in estados_finales:
             print("DEBUG: Aceptado por estado final.")
