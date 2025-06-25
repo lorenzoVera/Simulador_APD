@@ -176,16 +176,6 @@ class APDSimulatorApp(ctk.CTk):
                 messagebox.showerror("Error de Determinismo", f"Transición duplicada detectada para la clave: ({estado_actual}, '{simbolo_entrada_norm}', '{tope_stack_norm}'). Un APD debe ser determinista.")
                 return None
 
-            if simbolo_entrada_norm == '':
-                for (e_act, s_ent, t_stack) in transiciones:
-                    if e_act == estado_actual and t_stack == tope_stack_norm and s_ent != '':
-                        messagebox.showerror("Error de Determinismo", f"Conflicto de transición: Ya existe una transición para ({estado_actual}, '{s_ent}', '{tope_stack_norm}') y se intentó agregar una transición épsilon ({estado_actual}, 'ε', '{tope_stack_norm}'). Esto hace al APD no determinista.")
-                        return None
-            else:
-                if (estado_actual, '', tope_stack_norm) in transiciones:
-                     messagebox.showerror("Error de Determinismo", f"Conflicto de transición: Ya existe una transición épsilon para ({estado_actual}, 'ε', '{tope_stack_norm}') y se intentó agregar una transición para ({estado_actual}, '{simbolo_entrada_norm}', '{tope_stack_norm}'). Esto hace al APD no determinista.")
-                     return None
-
             transiciones[clave_transicion] = (estado_siguiente, simbolos_a_apilar_norm)
         
         if not transiciones:
